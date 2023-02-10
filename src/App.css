@@ -12,7 +12,6 @@
 
 .search-result {
   padding: 64px !important;
-  padding-top: 0px !important;
   margin: auto !important;
   /* margin-top: 16px !important; */
   height: 100%;
@@ -34,6 +33,7 @@ input, select, textarea{
 }
 
 .form-control {
+  border-radius: 64px !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   background-color: #1a1a1a !important;
@@ -77,6 +77,7 @@ input, select, textarea{
     padding: 32px !important;
     flex-direction: column !important;
     align-items: center !important;
+    padding-top: 0 !important;
   }
 
   .search-result img {
@@ -95,11 +96,13 @@ input, select, textarea{
 }
 
 .btn-primary {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+  
   background-color: #2d2d2da5 !important;
   border-color: #2d2d2d !important;
   color: #acacac6d !important;
+  border-radius: 64px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 
 .btn-primary:active {
