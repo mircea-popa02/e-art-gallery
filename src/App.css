@@ -73,6 +73,10 @@ input, select, textarea{
     width: 100% !important;
   }
 
+  .info-container h1 {
+    font-size: 2rem !important;
+  }
+
   .search-result {
     padding: 32px !important;
     flex-direction: column !important;

@@ -77,7 +77,7 @@ const App = () => {
 
                         }
                         )
-                }, 500)
+                }, 10)
             })
         event.target.reset()
     }
@@ -92,9 +92,9 @@ const App = () => {
                     <Form.Group controlId="formBasicEmail">
                         {/* <Form.Label>Find works of art</Form.Label> */}
                         <div className='d-flex'>
-                            <Form.Control type="text" placeholder="Search art" style={{ fontWeight: 300 }}>
+                            <Form.Control type="text" className='form-control-lg' placeholder="Search art" style={{ fontWeight: 300 }}>
                             </Form.Control>
-                            <Button type='submit' style={{ fontWeight: 300 }}>
+                            <Button type='submit' className='btn-lg' style={{ fontWeight: 300 }}>
                                 Submit
                             </Button>
                         </div>
