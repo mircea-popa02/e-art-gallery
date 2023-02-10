@@ -14,6 +14,8 @@ const App = () => {
     const [getTextHex, setTextHex] = React.useState("#e2e2e2");
     const [getColor, setColor] = React.useState(null);
     const [palette, setPalette] = React.useState(null);
+    const [change, setChange] = React.useState(null);
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -36,48 +38,59 @@ const App = () => {
                 setData(res.objectIDs)
                 // console.log(res.objectIDs)
                 // wait 1 second before making the next request
-                setTimeout(() => {
+                fetch('/object', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: res.objectIDs })
+                })
+                    .then(res => res.json())
+                    .then(res => {
 
-                    fetch('/object', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ data: res.objectIDs })
-                    })
-                        .then(res => res.json())
-                        .then(res => {
+                        console.log(res)
 
-                            console.log(res)
+                        setImage(res)
+                        console.log(res.primaryImage)
 
-                            setImage(res)
-                            console.log(res.primaryImage)
-                            Vibrant.from(res.primaryImageSmall).getPalette()
-                                .catch((err) => {
-                                    console.log(err)
-                                    // search-resolt background color should be white
+                        Vibrant.from(res.primaryImageSmall).getPalette()
+                            .catch((err) => {
+                                console.log(err)
+                                // search-resolt background color should be white
+
+                                // setBgHex('#0d089f')
+                                // setColor('#oooooo')
+                                // setPalette('#ffffff')
+                                // setTextHex('#ffffff')
+                            })
+                            .then((palette) => {
+                                console.log(palette)
+                                if (palette === undefined) {
                                     setBgHex('#ffffff')
-                                })
-                                .then((palette) => {
-                                    console.log(palette)
-                                    console.log(palette.DarkVibrant.hex)
-
+                                    setColor('#ffffff')
+                                    setPalette(null)
+                                    setTextHex('#ffffff')
+                                } else {
                                     setBgHex(palette.DarkMuted.hex)
                                     setTextHex(palette.LightVibrant.hex)
                                     setColor(palette.DarkVibrant.hex)
                                     setPalette(palette)
+                                }
+                                console.log(palette.DarkVibrant.hex)
 
-                                    // map palette
-                                    Object.values(palette).map((color, index) => {
-                                        console.log(color.hex)
-                                    }
-                                    )
 
-                                });
 
-                        }
-                        )
-                }, 10)
+                                // map palette
+                                // Object.values(palette).map((color, index) => {
+                                //     console.log(color.hex)
+                                // }
+                                // )
+
+                            });
+
+                        setChange(Math.random())
+                    }
+                    )
             })
         event.target.reset()
     }
@@ -87,7 +100,7 @@ const App = () => {
         <>
 
             <div className='search-form'>
-                <h1 style={{ fontWeight: 300, color: getTextHex, marginBottom: 16 }}>Find your <br></br><h1 > inspiration</h1></h1>
+                <h1 style={{ fontWeight: 300, color: getTextHex, marginBottom: 16 }}>Find your <br></br><p style={{ fontWeight: 700 }}>inspiration</p></h1>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
                         {/* <Form.Label>Find works of art</Form.Label> */}
@@ -108,11 +121,11 @@ const App = () => {
             {
                 image ?
                     <>
-                        <div key={getColor} className='box1' style={{ background: 'radial-gradient(at top left,' + getColor + ', #000000, #000000)' }}>
+                        <div key={getBgHex} className='box1' style={{ background: 'radial-gradient(at top left,' + getColor + ', #000000, #000000)' }}>
                         </div>
-                        <div key={getBgHex} className='box2' style={{ background: 'radial-gradient(at top right,' + getBgHex + ', #000000, #000000)' }}>
+                        <div key={getColor} className='box2' style={{ background: 'radial-gradient(at top right,' + getBgHex + ', #000000, #000000)' }}>
                         </div>
-                        <div key={getColor} className='search-result d-flex' style={{
+                        <div key={change} className='search-result d-flex' style={{
                             color: getTextHex
                         }}>
                             <div>
@@ -149,7 +162,7 @@ const App = () => {
 
             {getColor ?
                 <div className="footer" style={{ fontWeight: 300 }}>
-                    <p>Created by <a style={{ textDecoration: 'none', color: getColor}} href="https://github.com/mircea-popa02">Mircea Popa</a></p>
+                    <p>Created by <a style={{ textDecoration: 'none', color: getColor }} href="https://github.com/mircea-popa02">Mircea Popa</a></p>
                 </div>
                 : null
             }
