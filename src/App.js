@@ -62,7 +62,11 @@ const App = () => {
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
+            .then(res => {
+                console.log("first fetch res")
+                console.log(res)
+                res.json()
+            })
             .then(res => {
                 if (res.total === 0) {
                     console.log('No results')
