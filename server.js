@@ -14,7 +14,6 @@ app.post('/search', jsonParser, function (req, res) {
 
     var requestEndpoint = 'https://collectionapi.metmuseum.org/public/collection/v1/search?q=' + req.body.data
 
-    // make a get request to https://collectionapi.metmuseum.org/public/collection/v1/objects endpoint
     request(requestEndpoint, function (error, response, body) {
         if (error) {
             res.status(500).send({ error: error });
@@ -24,21 +23,6 @@ app.post('/search', jsonParser, function (req, res) {
     });
 });
 
-// app.post('/object', jsonParser, function (req, res) {
-//     console.log(req.body)
-
-//     for(var i = 0; i < req.body.data.length; i++) {
-//         var requestEndpoint = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/' + req.body.data[i]
-        
-//         request(requestEndpoint, function (error, response, body) {
-//             if (error) {
-//                 res.status(500).send({ error: error });
-//             } else {
-//                 res.status(200).send(body);
-//             }
-//         }); 
-//     }
-// });
 
 app.post('/object', jsonParser, function (req, res) {
     console.log(req.body);

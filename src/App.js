@@ -125,7 +125,7 @@ const App = () => {
         setImage(null)
         setColor(null)
 
-        fetch('/search', {
+        fetch('https://e-art-gallery-backend.onrender.com/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ const App = () => {
                     return
                 }
                 setData(res.objectIDs)
-                fetch('/object', {
+                fetch('https://e-art-gallery-backend.onrender.com/object', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -233,7 +233,6 @@ const App = () => {
                                                 {Object.values(palette).map((color, index) => {
                                                     return (
                                                         <div key={index} style={{ backgroundColor: color.hex, width: 24, height: 24 }} onClick={() => {
-                                                            // display pop-up with hex
 
                                                             setPopUpColor(color.hex)
                                                             setPopUp(true)
