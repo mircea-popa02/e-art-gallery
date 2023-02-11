@@ -15,14 +15,45 @@ const App = () => {
     const [getColor, setColor] = React.useState(null);
     const [palette, setPalette] = React.useState(null);
     const [change, setChange] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [noResults, setNoResults] = React.useState(true);
+    const [getPopUp, setPopUp] = React.useState(false);
+    const [getPopUpColor, setPopUpColor] = React.useState(null);
 
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        // console.log(event.target[0].value)
+    const chips = [
+        "Vincent van Gogh",
+        "Eduard Manet",
+        "Edgar Degas",
+        "Raphael Sanzio",
+        "Rembrandt",
+        "Matisse",
+        "Cezanne",
+        "Ghirlandaio",
+        "Auguste Renoir",
+        "Gauguin",
+        "Da Vinci",
+        "Titian",
+        "Giotto",
+        "Goya",
+        "Caravaggio",
+        "Botticelli",
+        "Rubens",
+        "Vermeer",
+        "Durer",
+        "El Greco",
+    ]
+
+    function handleChipClick(e) {
+        console.log(e.target.innerText)
         const data = {
-            data: event.target[0].value
+            data: e.target.innerText
         }
+        setNoResults(true)
+        setIsLoading(true)
+        setImage(null)
+        setColor(null)
+        setPopUp(false)
 
         fetch('/search', {
             method: 'POST',
@@ -33,11 +64,13 @@ const App = () => {
         })
             .then(res => res.json())
             .then(res => {
-
-                // console.log(res)
+                if (res.total === 0) {
+                    console.log('No results')
+                    setIsLoading(false)
+                    setNoResults(false)
+                    return
+                }
                 setData(res.objectIDs)
-                // console.log(res.objectIDs)
-                // wait 1 second before making the next request
                 fetch('/object', {
                     method: 'POST',
                     headers: {
@@ -51,17 +84,12 @@ const App = () => {
                         console.log(res)
 
                         setImage(res)
+                        setIsLoading(false);
                         console.log(res.primaryImage)
 
                         Vibrant.from(res.primaryImageSmall).getPalette()
                             .catch((err) => {
                                 console.log(err)
-                                // search-resolt background color should be white
-
-                                // setBgHex('#0d089f')
-                                // setColor('#oooooo')
-                                // setPalette('#ffffff')
-                                // setTextHex('#ffffff')
                             })
                             .then((palette) => {
                                 console.log(palette)
@@ -77,15 +105,76 @@ const App = () => {
                                     setPalette(palette)
                                 }
                                 console.log(palette.DarkVibrant.hex)
+                            });
+
+                        setChange(Math.random())
+                    }
+                    )
+            })
+    }
 
 
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        // console.log(event.target[0].value)
+        const data = {
+            data: event.target[0].value
+        }
+        setNoResults(true)
+        setIsLoading(true)
+        setImage(null)
+        setColor(null)
 
-                                // map palette
-                                // Object.values(palette).map((color, index) => {
-                                //     console.log(color.hex)
-                                // }
-                                // )
+        fetch('/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.total === 0) {
+                    console.log('No results')
+                    setIsLoading(false)
+                    setNoResults(false)
+                    return
+                }
+                setData(res.objectIDs)
+                fetch('/object', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: res.objectIDs })
+                })
+                    .then(res => res.json())
+                    .then(res => {
 
+                        console.log(res)
+
+                        setImage(res)
+                        setIsLoading(false);
+                        console.log(res.primaryImage)
+
+                        Vibrant.from(res.primaryImageSmall).getPalette()
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                            .then((palette) => {
+                                console.log(palette)
+                                if (palette === undefined) {
+                                    setBgHex('#ffffff')
+                                    setColor('#ffffff')
+                                    setPalette(null)
+                                    setTextHex('#ffffff')
+                                } else {
+                                    setBgHex(palette.DarkMuted.hex)
+                                    setTextHex(palette.LightVibrant.hex)
+                                    setColor(palette.DarkVibrant.hex)
+                                    setPalette(palette)
+                                }
+                                console.log(palette.DarkVibrant.hex)
                             });
 
                         setChange(Math.random())
@@ -103,11 +192,10 @@ const App = () => {
                 <h1 style={{ fontWeight: 300, color: getTextHex, marginBottom: 16 }}>Find your <br></br><p style={{ fontWeight: 700 }}>inspiration</p></h1>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        {/* <Form.Label>Find works of art</Form.Label> */}
                         <div className='d-flex'>
                             <Form.Control type="text" className='form-control-lg' placeholder="Search art" style={{ fontWeight: 300 }}>
                             </Form.Control>
-                            <Button type='submit' className='btn-lg' style={{ fontWeight: 300 }}>
+                            <Button type='submit' className='btn-lg' style={{ fontWeight: 300, backgroundColor: getTextHex }}>
                                 Submit
                             </Button>
                         </div>
@@ -117,6 +205,7 @@ const App = () => {
                     </Form.Group>
                 </Form>
             </div>
+
 
             {
                 image ?
@@ -139,32 +228,110 @@ const App = () => {
                                 <h5 style={{ color: getColor, fontWeight: 300 }}>{image.dimensions}</h5>
                                 <div>
                                     {palette &&
-                                        <div className='swatch d-flex'>
-                                            {Object.values(palette).map((color, index) => {
-                                                return (
-                                                    <div key={index} style={{ backgroundColor: color.hex, width: 16, height: 16 }}>
+                                        <>
+                                            <div className='swatch d-flex'>
+                                                {Object.values(palette).map((color, index) => {
+                                                    return (
+                                                        <div key={index} style={{ backgroundColor: color.hex, width: 24, height: 24 }} onClick={() => {
+                                                            // display pop-up with hex
 
-                                                    </div>
-                                                )
-                                            })}
-                                        </div>
+                                                            setPopUpColor(color.hex)
+                                                            setPopUp(true)
+                                                        }}>
+
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+
+                                            
+                                        </>
                                     }
+                                    {getPopUp ?
+                                                <div className='pop-up' style={{ backgroundColor: getPopUpColor }}>
+                                                    <div className='pop-up-text'>
+                                                        {getPopUpColor}
+                                                    </div>
+                                                </div>
+                                                :
+                                                null
+                                            }
                                 </div>
                             </div>
 
                         </div>
+                        <div>
+
+                            <div className="chip-container d-flex">
+                                {chips.map((chip, index) => {
+                                    return (
+                                        <div key={index} className='chip' onClick={handleChipClick}>
+                                            {chip}
+                                        </div>
+                                    )
+                                })}
+
+                            </div>
+                        </div>
                     </>
                     :
-                    <Container className='d-flex justify-content-center'>
-                        <h1>...</h1>
-                    </Container>
+                    <>
+                        {noResults ?
+                            <>
+                                {
+                                    isLoading ?
+                                        <div className='loading'>
+                                            <div className='loading-img'></div>
+                                            <div className='loading-title'></div>
+                                            <div className='loading-text'></div>
+                                            <div className='loading-text'></div>
+                                        </div >
+                                        :
+                                        <div className='desc'>
+                                            <p className='text' style={{ color: getTextHex }}>
+                                                Here you can find works of art from The Metropolitan Museum of Art Collection. Start searching by artist, title or description.
+
+                                            </p>
+                                            <div className="chip-container d-flex">
+                                                {chips.map((chip, index) => {
+                                                    return (
+                                                        <div key={index} className='chip' onClick={handleChipClick}>
+                                                            {chip}
+                                                        </div>
+                                                    )
+                                                })}
+
+                                            </div>
+
+                                        </div>
+                                }
+                            </>
+                            : <div className='desc'>
+                                <p className='text' style={{ color: getTextHex }}>
+                                    No results found.
+
+                                </p>
+                                <div className="chip-container d-flex">
+                                    {chips.map((chip, index) => {
+                                        return (
+                                            <div key={index} className='chip' onClick={handleChipClick}>
+                                                {chip}
+                                            </div>
+                                        )
+                                    })}
+
+                                </div>
+                            </div>
+                        }
+                    </>
             }
 
-            {getColor ?
-                <div className="footer" style={{ fontWeight: 300 }}>
-                    <p>Created by <a style={{ textDecoration: 'none', color: getColor }} href="https://github.com/mircea-popa02">Mircea Popa</a></p>
-                </div>
-                : null
+            {
+                getColor ?
+                    <div className="footer" style={{ fontWeight: 300 }}>
+                        <p>Created by <a style={{ color: getColor }} href="https://github.com/mircea-popa02">Mircea Popa</a></p>
+                    </div>
+                    : null
             }
 
         </>
