@@ -29,7 +29,7 @@
       "react-app/jest"
     ]
   },
-  "proxy": "https://e-art-gallery-backend.onrender.com",
+  "proxy": "https://e-art-gallery-backend.vercel.app",
   "browserslist": {
     "production": [
       ">0.2%",
