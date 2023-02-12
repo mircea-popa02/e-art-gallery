@@ -55,6 +55,8 @@ const App = () => {
         setColor(null)
         setPopUp(false)
 
+        console.log(JSON.stringify(data))
+
         fetch('/search', {
             method: 'POST',
             headers: {
@@ -62,12 +64,9 @@ const App = () => {
             },
             body: JSON.stringify(data)
         })
+            .then(res => res.json())
             .then(res => {
-                console.log("first fetch res")
-                console.log(res)
-                res.json()
-            })
-            .then(res => {
+
                 if (res.total === 0) {
                     console.log('No results')
                     setIsLoading(false)
@@ -138,7 +137,8 @@ const App = () => {
         })
             .then(res => {
                 console.log(res)
-                res.json()})
+                res.json()
+            })
             .then(res => {
                 if (res.total === 0) {
                     console.log('No results')
@@ -249,18 +249,18 @@ const App = () => {
                                                 })}
                                             </div>
 
-                                            
+
                                         </>
                                     }
                                     {getPopUp ?
-                                                <div className='pop-up' style={{ backgroundColor: getPopUpColor }}>
-                                                    <div className='pop-up-text'>
-                                                        {getPopUpColor}
-                                                    </div>
-                                                </div>
-                                                :
-                                                null
-                                            }
+                                        <div className='pop-up' style={{ backgroundColor: getPopUpColor }}>
+                                            <div className='pop-up-text'>
+                                                {getPopUpColor}
+                                            </div>
+                                        </div>
+                                        :
+                                        null
+                                    }
                                 </div>
                             </div>
 
