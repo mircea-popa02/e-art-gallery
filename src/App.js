@@ -55,7 +55,7 @@ const App = () => {
         setColor(null)
         setPopUp(false)
 
-        fetch('https://e-art-gallery-backend.vercel.app/search', {
+        fetch('/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ const App = () => {
                     return
                 }
                 setData(res.objectIDs)
-                fetch('https://e-art-gallery-backend.vercel.app/object', {
+                fetch('/object', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
