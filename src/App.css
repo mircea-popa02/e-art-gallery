@@ -52,7 +52,7 @@ input, select, textarea{
   border-color:#2d2d2dcf !important;
   color: #acacac6d !important;
   box-shadow: 0 0 64px 0 rgba(0, 0, 0, 075) !important;
-  width: 30% !important; 
+  width: 30vw !important; 
   background-color: #1d1d1d6b !important;
   /* blur under */
   backdrop-filter: blur(10px) !important;
@@ -75,6 +75,11 @@ input, select, textarea{
   color: #acacac6d !important;
   background-color: #1a1a1a !important;
   backdrop-filter: blur(10px) !important;
+}
+.text {
+  /* block */
+  padding: 64px;
+  padding-bottom: 0 !important;
 }
 
 .footer {
@@ -116,13 +121,12 @@ input, select, textarea{
     width: 100% !important;
   }
 
-  .loading img {
-    padding: 32px;
-    width: 100% !important;
-  }
-
   .info-container h1 {
     font-size: 2rem !important;
+  }
+
+  .text {
+    padding: 32px;
   }
 
   .search-result {
@@ -195,12 +199,15 @@ input, select, textarea{
   /* justify-content: center; */
   align-items: center;
   padding: 64px;
+  max-width: 40rem;
 }
 
 .desc p {
   color: #acacac !important;
   padding: 64px;
+  padding-bottom: 0 !important;
   max-width: 40rem;
+  margin: 0 !important;
 }
 
 .chip {
@@ -243,43 +250,27 @@ input, select, textarea{
    }
 }
 
-.loading-img {
-  z-index: 100;
-  height: 30vh;
-  width: 50%;
-  background-color: rgb(64, 64, 64);
-  margin: 64px;
-  margin-bottom: 32px;
-  /* margin-bottom: 0 !important; */
-  /* border-radius: 64px; */
-  animation: loadingAnimation 3s infinite ease-in-out;
-}
 
-.loading-title {
-  z-index: 100;
-  height: 2rem;
-  width: 25%;
-  background-color: rgb(64, 64, 64);
-  margin: 64px;
-  margin-top: 0 !important;
-  margin-bottom: 16px;
-  /* margin-top: 8px !important; */
-  /* border-radius: 64px; */
-  animation: loadingAnimation 3s infinite ease-in-out;
-}
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
 
-.loading-text {
-  z-index: 100;
-  height: 1.5rem;
-  width: 50%;
-  background-color: rgb(64, 64, 64);
-  margin: 64px;
-  margin-bottom: 0px;
-  margin-top: 0 !important;
-  /* margin-top: 8px !important; */
-  /* border-radius: 64px; */
-  animation: loadingAnimation 3s infinite ease-in-out;
-}
+  margin: auto !important;
+  margin-top: 32px;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
 
 .image {
   height: 30vh;

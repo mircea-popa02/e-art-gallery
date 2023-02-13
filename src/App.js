@@ -125,6 +125,7 @@ const App = () => {
         setIsLoading(true)
         setImage(null)
         setColor(null)
+        setPopUp(false)
 
         fetch('https://e-art-gallery-backend.vercel.app/search', {
             method: 'POST',
@@ -158,7 +159,7 @@ const App = () => {
                         setIsLoading(false);
                         console.log(res.primaryImage)
 
-                        Vibrant.from(res.primaryImage).getPalette()
+                        Vibrant.from(res.primaryImageSmall).getPalette()
                             .catch((err) => {
                                 console.log(err)
                             })
@@ -175,7 +176,7 @@ const App = () => {
                                     setColor(palette.DarkVibrant.hex)
                                     setPalette(palette)
                                 }
-                                console.log(palette.DarkVibrant.hex)
+                                // console.log(palette.DarkVibrant.hex)
                             });
 
                         setChange(Math.random())
@@ -261,8 +262,11 @@ const App = () => {
 
                         </div>
                         <div>
-
+                            <span className='text' style={{ color: getTextHex }}>
+                                Other search suggestions
+                            </span>
                             <div className="chip-container d-flex">
+
                                 {chips.map((chip, index) => {
                                     return (
                                         <div key={index} className='chip' onClick={handleChipClick}>
@@ -280,17 +284,11 @@ const App = () => {
                             <>
                                 {
                                     isLoading ?
-                                        <div className='loading'>
-                                            <div className='loading-img'></div>
-                                            <div className='loading-title'></div>
-                                            <div className='loading-text'></div>
-                                            <div className='loading-text'></div>
-                                        </div >
+                                        <div className="loader"></div>
                                         :
                                         <div className='desc'>
                                             <p className='text' style={{ color: getTextHex }}>
                                                 Here you can find works of art from The Metropolitan Museum of Art Collection. Start searching by artist, title or description.
-
                                             </p>
                                             <div className="chip-container d-flex">
                                                 {chips.map((chip, index) => {
