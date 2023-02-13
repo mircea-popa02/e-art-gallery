@@ -116,6 +116,11 @@ input, select, textarea{
     width: 100% !important;
   }
 
+  .loading img {
+    padding: 32px;
+    width: 100% !important;
+  }
+
   .info-container h1 {
     font-size: 2rem !important;
   }

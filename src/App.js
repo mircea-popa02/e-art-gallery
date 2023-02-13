@@ -105,10 +105,10 @@ const App = () => {
                                     setColor(palette.DarkVibrant.hex)
                                     setPalette(palette)
                                 }
-                                console.log(palette.DarkVibrant.hex)
-                            });
+                            }).then(() => {
 
-                        setChange(Math.random())
+                                setChange(Math.random())
+                            })
                     }
                     )
             })
@@ -158,7 +158,7 @@ const App = () => {
                         setIsLoading(false);
                         console.log(res.primaryImage)
 
-                        Vibrant.from(res.primaryImageSmall).getPalette()
+                        Vibrant.from(res.primaryImage).getPalette()
                             .catch((err) => {
                                 console.log(err)
                             })
