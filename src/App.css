@@ -241,8 +241,10 @@ input, select, textarea{
 .loading-img {
   z-index: 100;
   height: 30vh;
+  width: 50%;
   background-color: rgb(64, 64, 64);
-  margin: 32px;
+  margin: 64px;
+  margin-bottom: 32px;
   /* margin-bottom: 0 !important; */
   /* border-radius: 64px; */
   animation: loadingAnimation 3s infinite ease-in-out;
@@ -251,9 +253,9 @@ input, select, textarea{
 .loading-title {
   z-index: 100;
   height: 2rem;
-  width: 50%;
+  width: 25%;
   background-color: rgb(64, 64, 64);
-  margin: 32px;
+  margin: 64px;
   margin-top: 0 !important;
   margin-bottom: 16px;
   /* margin-top: 8px !important; */
@@ -264,8 +266,9 @@ input, select, textarea{
 .loading-text {
   z-index: 100;
   height: 1.5rem;
+  width: 50%;
   background-color: rgb(64, 64, 64);
-  margin: 32px;
+  margin: 64px;
   margin-bottom: 0px;
   margin-top: 0 !important;
   /* margin-top: 8px !important; */
