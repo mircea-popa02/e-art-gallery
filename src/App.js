@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.css';
 const Vibrant = require('node-vibrant')
 
@@ -19,7 +18,6 @@ const App = () => {
     const [noResults, setNoResults] = React.useState(true);
     const [getPopUp, setPopUp] = React.useState(false);
     const [getPopUpColor, setPopUpColor] = React.useState(null);
-
 
     const chips = [
         "Vincent van Gogh",
