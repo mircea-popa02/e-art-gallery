@@ -1,6 +1,5 @@
 .search-result img {
-  max-height: 60vh;
-  max-width: fit-content;
+  width: 25rem;
   object-fit: cover;
   padding: 0 !important;
   margin-bottom: 16px;
@@ -199,6 +198,7 @@ input, select, textarea{
   /* justify-content: center; */
   align-items: center;
   padding: 64px;
+  padding-top: 16px;
   max-width: 40rem;
 }
 
@@ -214,6 +214,7 @@ input, select, textarea{
   background-color: #2d2d2dcf !important;
   border-radius: 32px;
   padding: 4px;
+  border: 1px solid #acacac38 !important;
   padding-left: 8px;
   padding-right: 8px;
   margin: 8px;

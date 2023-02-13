@@ -55,7 +55,7 @@ const App = () => {
 
         console.log(JSON.stringify(data))
 
-        fetch("https://e-art-gallery-backend.vercel.app/search/", {
+        fetch("https://e-art-gallery-backend.vercel.app/search", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -249,7 +249,7 @@ const App = () => {
                                         </>
                                     }
                                     {getPopUp ?
-                                        <div className='pop-up' style={{ backgroundColor: getPopUpColor }}>
+                                        <div className='pop-up' style={{ backgroundColor: getPopUpColor }} onClick={() => {navigator.clipboard.writeText(this.state.textToCopy)}}>
                                             <div className='pop-up-text'>
                                                 {getPopUpColor}
                                             </div>
