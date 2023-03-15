@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -42,8 +43,33 @@ const App = () => {
         "El Greco",
     ]
 
+    const [descriptions, setDescriptions] = React.useState(null);
+
+    const fetchDescriptions = async (info) => {
+        info += " create description"
+
+        fetch("https://e-art-gallery-backend.vercel.app/chat", { // Fix the syntax error by moving the closing parenthesis to after the whole fetch() function block
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                data: info
+            }),
+        })
+            .then((res) => res.json())
+
+            .then((data) => {
+                console.log("here")
+                console.log(data.content);
+                setDescriptions(data.content);
+            })
+    };
+
     function handleChipClick(e) {
         console.log(e.target.innerText)
+        setDescriptions(null)
+        fetchDescriptions(e.target.innerText)
         const data = {
             data: e.target.innerText
         }
@@ -72,6 +98,7 @@ const App = () => {
                     return
                 }
                 setData(res.objectIDs)
+
                 fetch('https://e-art-gallery-backend.vercel.app/object', {
                     method: 'POST',
                     headers: {
@@ -95,10 +122,10 @@ const App = () => {
                             .then((palette) => {
                                 console.log(palette)
                                 if (palette === undefined) {
-                                    setBgHex('#ffffff')
-                                    setColor('#ffffff')
+                                    setBgHex('#fffff0')
+                                    setColor('#fffff1')
                                     setPalette(null)
-                                    setTextHex('#ffffff')
+                                    setTextHex('#fffff2')
                                 } else {
                                     setBgHex(palette.DarkMuted.hex)
                                     setTextHex(palette.LightVibrant.hex)
@@ -117,7 +144,8 @@ const App = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        // console.log(event.target[0].value)
+        setDescriptions(null)
+        fetchDescriptions(event.target[0].value)
         const data = {
             data: event.target[0].value
         }
@@ -143,6 +171,7 @@ const App = () => {
                     return
                 }
                 setData(res.objectIDs)
+                // https://e-art-gallery-backend.vercel.app/object
                 fetch('https://e-art-gallery-backend.vercel.app/object', {
                     method: 'POST',
                     headers: {
@@ -166,17 +195,16 @@ const App = () => {
                             .then((palette) => {
                                 console.log(palette)
                                 if (palette === undefined) {
-                                    setBgHex('#ffffff')
-                                    setColor('#ffffff')
+                                    setBgHex('#fffff0')
+                                    setColor('#fffff1')
                                     setPalette(null)
-                                    setTextHex('#ffffff')
+                                    setTextHex('#fffff2')
                                 } else {
                                     setBgHex(palette.DarkMuted.hex)
                                     setTextHex(palette.LightVibrant.hex)
                                     setColor(palette.DarkVibrant.hex)
                                     setPalette(palette)
                                 }
-                                // console.log(palette.DarkVibrant.hex)
                             });
 
                         setChange(Math.random())
@@ -249,7 +277,7 @@ const App = () => {
                                         </>
                                     }
                                     {getPopUp ?
-                                        <div className='pop-up' style={{ backgroundColor: getPopUpColor }} onClick={() => {navigator.clipboard.writeText(this.state.textToCopy)}}>
+                                        <div className='pop-up' style={{ backgroundColor: getPopUpColor }} onClick={() => { navigator.clipboard.writeText(this.state.textToCopy) }}>
                                             <div className='pop-up-text'>
                                                 {getPopUpColor}
                                             </div>
@@ -261,15 +289,38 @@ const App = () => {
                             </div>
 
                         </div>
+
+                        {
+                            descriptions ?
+                                <div className='desc'>
+                                    <h3 className='text' style={{ color: getTextHex }}>
+                                        ChatGPT artist description
+                                    </h3>
+                                    <p className='text' style={{ color: getTextHex }}>
+                                        {descriptions}
+                                    </p>
+                                </div>
+                                :
+                                <>
+                                    <h3 className='text' style={{ color: getTextHex }}>
+                                        Loading ChatGPT artist description...
+                                    </h3>
+                                    <div className='loading2'>
+
+                                    </div>
+                                </>
+                        }
+
+
                         <div>
-                            <span className='text' style={{ color: getTextHex }}>
+                            <p className='text' style={{ color: getTextHex }}>
                                 Other search suggestions
-                            </span>
+                            </p>
                             <div className="chip-container d-flex">
 
                                 {chips.map((chip, index) => {
                                     return (
-                                        <div key={index} className='chip' onClick={handleChipClick}>
+                                        <div className='chip' onClick={handleChipClick}>
                                             {chip}
                                         </div>
                                     )
@@ -312,7 +363,7 @@ const App = () => {
                                 <div className="chip-container d-flex">
                                     {chips.map((chip, index) => {
                                         return (
-                                            <div key={index} className='chip' onClick={handleChipClick}>
+                                            <div className='chip' onClick={handleChipClick}>
                                                 {chip}
                                             </div>
                                         )
@@ -323,6 +374,9 @@ const App = () => {
                         }
                     </>
             }
+
+
+
 
             {
                 getColor ?
