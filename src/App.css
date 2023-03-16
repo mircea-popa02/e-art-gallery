@@ -160,7 +160,7 @@ textarea {
 
   .chip-container {
     padding: 32px !important;
-    padding-top: 8px !important;
+    padding-top: 16px !important;
   }
 }
 
@@ -329,3 +329,7 @@ textarea {
 }
 
 
+h3.text {
+  padding-bottom: 16px !important;
+  padding-top: 0;
+}
